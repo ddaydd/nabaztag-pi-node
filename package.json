@@ -1,0 +1,16 @@
+{
+  "name": "nabaztag",
+  "version": "0.0.1",
+  "description": "server node nabaztag-pi with connexion to homedoudou in socket",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David FAIVRE-MAÇON",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.7.6",
+    "netcat": "^1.5.0",
+    "ws": "^7.3.0"
+  }
+}
