@@ -8,72 +8,22 @@ Connexion homedoudou
 https://www.homedoudou.fr
 
 */
-//FIXME peripherique homedoudou tab
-const version = 0.2;
-// const host = '127.0.0.1:3000';
-const host = 'hard.homedoudou.fr';
 
 const fs = require('fs');
 const handlebars = require('handlebars');
 const ddp = require('./ddp.js');
-const nab = require('./helpers.js');
-
-// connexion socket à homedoudou
-let homedoudouId = null;
-try {
-  homedoudouId = fs.readFileSync('homedoudouId.txt', 'utf8');
-}
-catch(e) {
-  console.log('Error:', e.stack);
-}
-if(!homedoudouId) return console.log('homedoudouId.txt with identifiant missing');
-
-const client = ddp.connect('ws://' + host + '/websocket', {headers: {"User-Agent": "Nabaztag/" + version}});
-
-// eventListener
-client.on('message', function(data) {
-  data = JSON.parse(data);
-  // console.log('<-', data);
-  if(data['server_id'] === '0') {
-    ddp.send({
-      msg: 'connect',
-      version: '1',
-      support: ['1', 'pre2', 'pre1'],
-    });
-  }
-
-  if(data['msg'] === 'ping') {
-    ddp.send({
-      msg: 'pong',
-    });
-  }
-
-  if(data['msg'] === 'connected') {
-    console.log('connected to ' + host);
-    nab.sendToHMD('connexion', 'hard_id', homedoudouId);
-    nab.sendToHMD('archive', 'infos', 'se connecte');
-    nab.sendToHMD('archive', 'vivant', '1');
-    setInterval(function() {
-      nab.sendToHMD('archive', 'vivant', '1');
-    }, 1000 * 60 * 10);
-  }
-
-  if(data['msg'] === 'command') {
-    const command = data['command'];
-    nab.sendToRabbit(command);
-  }
-
-  if(data['msg'] === 'error') {
-    console.log('----------- ERROR --------', data['reason']);
-  }
-
-});
-
-const NODE_SERVER_PORT = 8076;
-
-// node server
 const http = require('http');
 const url = require('url');
+
+const version = 0.3;
+
+// Connexion homedoudou.fr en websocket
+// const host = '127.0.0.1:3000';
+const host = 'hard.homedoudou.fr';
+ddp.connect('ws://' + host + '/websocket', {headers: {"User-Agent": "Nabaztag/" + version}});
+
+// Serveur NODEJS
+const NODE_SERVER_PORT = 8076;
 
 http.createServer(function(req, res) {
   const currentUrl = url.parse(req.url, true);
@@ -113,25 +63,6 @@ http.createServer(function(req, res) {
 }).listen(NODE_SERVER_PORT);
 
 console.log('server listen on port : ' + NODE_SERVER_PORT);
-
-const nabaztagSendChoreography = function(base64, callback) {
-  $.ajax({
-    type: "PUT",
-    url: '/api/command',
-    data: {"sequence": "[{\"choreography\":\"data:application/x-nabaztag-mtl-choreography;base64," + base64 + "\"}]"},
-    success: function(data, status, xhr) {
-      if(callback) {
-        callback();
-      }
-    },
-    error: function(jqXhr, textStatus, errorMessage) {
-      console.log("AJAX error");
-      if(callback) {
-        callback();
-      }
-    },
-  });
-};
 
 
 

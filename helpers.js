@@ -33,16 +33,6 @@ helpers.IsJsonString = function(str) {
   return true;
 };
 
-helpers.sendToHMD = function(m, k, v) {
-  return helpers.sendToHMDMethod('ddpToHmd', {"m": m, "k": k, "v": v});
-};
-
-let methodId = 1;
-helpers.sendToHMDMethod = function(method, toSend) {
-  ddp.send({"msg": "method", "id": methodId.toString(), "method": "" + method + "", "params": [toSend]}); // FIXME incremente id
-  methodId++;
-};
-
 // FIXME A trier
 
 helpers.defineBlocksWithJsonArray = function() {};
