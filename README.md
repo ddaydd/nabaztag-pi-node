@@ -8,6 +8,10 @@ installation nodejs en ssh
 recuperer un identifiant matériel sur homedoudou.fr  
 copier l'identifiant dans un fichier homedoudouId.txt à mettre à la racine du dossier
 
+installer les dependances
+
+> npm install
+
 lancer le server node avec la commande
 
-> node index.js
+> node index.js  
