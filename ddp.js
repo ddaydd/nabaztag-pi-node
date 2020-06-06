@@ -5,19 +5,15 @@ const nab = require('./helpers.js');
 let methodId = 1;
 
 // connexion socket à homedoudou
+const fileId = 'homedoudouId.txt';
 let homedoudouId = null;
-try {
-  homedoudouId = fs.readFileSync('homedoudouId.txt', 'utf8');
-}
-catch(e) {
-  console.log('Error:', e.stack);
-}
-if(!homedoudouId) return console.log('homedoudouId.txt with identifiant missing');
+if(fs.existsSync(fileId)) homedoudouId = fs.readFileSync('homedoudouId.txt', 'utf8');
 
 let client = null;
 const ddp = {
   connected: false,
   connect(address, protocols, options) {
+    if(!homedoudouId) return console.log('homedoudouId.txt with identifiant missing');;
     client = new WebSocket(address, protocols, options);
 
     // eventListener
