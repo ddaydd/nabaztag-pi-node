@@ -4,6 +4,9 @@
   <a href="/"><h1>Nabaztag</h1></a>
 </div>
 <div class="body">
+
+  <h2>NADB</h2>
+  <a href="https://github.com/nabaztag2018/pynab/blob/master/PROTOCOL.md" target="_blank">protocol nadb</a>
   <p>
   <form><textarea name="data" style="width:100%;height:100px" placeholder='{"type":"ears","left":10,"right":20}'>{{data}}</textarea><button>Envoyer la commande</button></form>
   </p>
@@ -15,7 +18,18 @@
   </ul>
   </p>
 
-  <a href="https://github.com/nabaztag2018/pynab/blob/master/PROTOCOL.md" target="_blank">protocol nadb</a>
+  <h2>Choregraphie</h2>
+  <p>
+  <form><textarea name="chor" style="width:100%;height:100px" placeholder='[0,20,ear,dir,0,17,ear,stepsPos]'>{{chor}}</textarea><button>Envoyer la commande</button></form>
+  </p>
+  <p>
+    Exemples<br>
+  <ul>
+    <li>Ear : [0, 20, 15, 0,0, 17, 15, 15]</li>
+    <li>[0,20,ear,dir,0,17,ear,stepsPos]</li>
+    <li>[0,1,10,0,7,led,rgba[0],rgba[1],rgba[2],0,0,15,7,led,0,0,0,0,0]</li>
+  </ul>
+  </p>
 </div>
 </body>
 </html>

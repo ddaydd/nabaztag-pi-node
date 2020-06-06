@@ -11,6 +11,7 @@ https://www.homedoudou.fr
 
 const fs = require('fs');
 const handlebars = require('handlebars');
+const nab = require('./helpers.js');
 const ddp = require('./ddp.js');
 const http = require('http');
 const url = require('url');
@@ -45,7 +46,12 @@ http.createServer(function(req, res) {
   }
   else if(pathName === "/nadb") {
     let data = currentUrl.query;
-    nab.sendToRabbit(data.data);
+    if(data.data) {
+      nab.sendToRabbit(data.data);
+    }
+    if(data.chor) {
+      nab.sendChoreographyToRabbit(data.chor);
+    }
 
     fs.readFile('nadb.html', 'utf-8', function(error, source) {
       const template = handlebars.compile(source);
