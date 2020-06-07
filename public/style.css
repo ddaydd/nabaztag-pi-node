@@ -1,0 +1,46 @@
+a {
+  text-decoration: none;
+  background-color: #0c5460;
+  color: white;
+  padding: 5px;
+}
+
+header {
+  padding: 20px;
+}
+
+header a {
+  padding: 20px;
+}
+
+header a:hover {
+  background-color: #138699;
+}
+
+form {
+  margin: 10px;
+}
+
+button, [type=submit] {
+  padding: 5px;
+  margin: 2px;
+  background-color: #138699;
+  border: none;
+  color: white;
+}
+
+#generator form {
+  text-align: right;
+}
+
+.form-gen-chor-line {
+  display: inline-block;
+}
+
+.form-gen-chor-line-submit {
+  display: inline-block;
+}
+
+[readonly]{
+  background-color: red;
+}

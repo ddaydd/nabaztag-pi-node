@@ -9,7 +9,9 @@
   "author": "David FAIVRE-MAÇON",
   "license": "ISC",
   "dependencies": {
-    "handlebars": "^4.7.6",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
     "netcat": "^1.5.0",
     "ws": "^7.3.0"
   }

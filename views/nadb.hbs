@@ -1,0 +1,22 @@
+<h2>NADB</h2><a href="https://github.com/nabaztag2018/pynab/blob/master/PROTOCOL.md" target="_blank">protocol nadb</a><p>
+<form method="post"><textarea name="data" style="width:100%;height:100px" placeholder='{"type":"ears","left":10,"right":20}'>{{data}}</textarea><button>Envoyer la commande</button></form></p><p>
+  Exemples<br>
+<ul>
+  <li>{"type":"ears","left":10,"right":20}</li>
+  <li>{"type":"command","sequence":[{"audio":"nabd/abort.wav"},{"audio":"nabbookd/interrupt.mp3","choreography":"nabbookd/interrupt.chor"}],"request_id":"outro"}</li>
+</ul></p>
+
+<h2>Choregraphie</h2><p>
+<form method="post"><textarea name="chor" style="width:100%;height:100px" placeholder='[0,20,ear,dir,0,17,ear,stepsPos]'>{{chor}}</textarea><button>Envoyer la commande</button></form></p><p>
+  Exemples<br>
+<ul>
+  <li>[0, 20, 15, 0,0, 17, 15, 15] (bouge oreilles)</li>
+  <li>[0,20,ear,dir,0,17,ear,stepsPos]</li>
+  <li>[0,1,10,0,7,led,rgba[0],rgba[1],rgba[2],0,0,15,7,led,0,0,0,0,0]</li>
+</ul></p>
+
+<p>
+  le premier nombre est l'attente, le deuxième le type de commande, puis nombre de parametres suivant commande </p>
+
+
+

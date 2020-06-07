@@ -9,14 +9,12 @@ https://www.homedoudou.fr
 
 */
 
+const version = 0.4;
+
 const fs = require('fs');
-const handlebars = require('handlebars');
 const nab = require('./helpers.js');
 const ddp = require('./ddp.js');
-const http = require('http');
-const url = require('url');
-
-const version = 0.3;
+const choreography = require('./choreography.js');
 
 // Connexion homedoudou.fr en websocket
 // const host = '127.0.0.1:3000';
@@ -24,51 +22,58 @@ const host = 'hard.homedoudou.fr';
 ddp.connect('ws://' + host + '/websocket', {headers: {"User-Agent": "Nabaztag/" + version}});
 
 // Serveur NODEJS
-const NODE_SERVER_PORT = 8076;
 
-http.createServer(function(req, res) {
-  const currentUrl = url.parse(req.url, true);
-  const pathName = currentUrl.pathname;
-  console.log('URL : ', currentUrl.path);
-  if(pathName === "/") {
-    const data = {title: 'nabaztag'};
-    data.body = process.argv[2];
+const express = require('express');
+const handlebars = require('express-handlebars');
+const bodyParser = require("body-parser");
+const app = express();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static('public'));
+app.engine('.hbs', handlebars({
+  layoutsDir: './views/layouts',
+  defaultLayout: 'layout',
+  partialsDir: './views/layouts/partials/',
+  extname: '.hbs',
+}));
+app.set('view engine', '.hbs');
 
-    fs.readFile('index.html', 'utf-8', function(error, source) {
-      const template = handlebars.compile(source);
-      const html = template(data);
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(html);
-      res.end();
-    });
-  }
-  else if(pathName === "/favicon.ico") {
-  }
-  else if(pathName === "/nadb") {
-    let data = currentUrl.query;
-    if(data.data) {
-      nab.sendToRabbit(data.data);
-    }
-    if(data.chor) {
-      nab.sendChoreographyToRabbit(data.chor);
-    }
+const port = 8076;
+let chor = "";
 
-    fs.readFile('nadb.html', 'utf-8', function(error, source) {
-      const template = handlebars.compile(source);
-      const html = template(data);
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(html);
-      res.end();
-    });
-  }
-  else {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('404');
-    res.end();
-  }
-}).listen(NODE_SERVER_PORT);
+app.get('/', (req, res) => {
+  res.render('index');
+});
 
-console.log('server listen on port : ' + NODE_SERVER_PORT);
+app.get('/nadb', (req, res) => {
+  res.render('nadb', {opCode: choreography.opCode});
+});
+
+app.post('/nadb', (req, res) => {
+  const form = req.body;
+
+  if(form.data) nab.sendToRabbit(form.data);
+  if(form.chor) nab.sendChoreographyToRabbit(form.chor);
+
+  res.redirect('/nadb');
+});
+
+app.get('/chorgenerator', (req, res) => {
+  res.render('chorgenerator', {chor: chor});
+});
+
+app.post('/chorgenerator', (req, res) => {
+  const form = req.body;
+  // console.log(form);
+  if(form.reset === 'reset') chor = "";
+  else chor = chor + "[" + form.chorValue + "]<br>";
+  res.redirect('/chorgenerator');
+});
+
+app.use(function(req, res, next) {
+  res.status(404).send("Sorry can't find that!");
+});
+
+app.listen(port, () => console.log(`server listen on port : ${port}`));
 
 
 
