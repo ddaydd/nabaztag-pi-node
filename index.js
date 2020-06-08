@@ -9,9 +9,8 @@ https://www.homedoudou.fr
 
 */
 
-const version = 0.4;
+const version = "0.4.1";
 
-const fs = require('fs');
 const nab = require('./helpers.js');
 const ddp = require('./ddp.js');
 const choreography = require('./choreography.js');
@@ -24,12 +23,13 @@ ddp.connect('ws://' + host + '/websocket', {headers: {"User-Agent": "Nabaztag/" 
 // Serveur NODEJS
 
 const express = require('express');
-const handlebars = require('express-handlebars');
+const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
 const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
-app.engine('.hbs', handlebars({
+app.engine('.hbs', exphbs({
   layoutsDir: './views/layouts',
   defaultLayout: 'layout',
   partialsDir: './views/layouts/partials/',
@@ -38,7 +38,7 @@ app.engine('.hbs', handlebars({
 app.set('view engine', '.hbs');
 
 const port = 8076;
-let chor = "";
+let chor = [];
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -63,9 +63,10 @@ app.get('/chorgenerator', (req, res) => {
 
 app.post('/chorgenerator', (req, res) => {
   const form = req.body;
-  // console.log(form);
-  if(form.reset === 'reset') chor = "";
-  else chor = chor + "[" + form.chorValue + "]<br>";
+  console.log('form.chorValue', form.chorValue);
+  if(form.reset === 'reset') chor = [];
+  else chor = chor.concat(form.chorValue);
+  console.log(chor);
   res.redirect('/chorgenerator');
 });
 
@@ -75,5 +76,7 @@ app.use(function(req, res, next) {
 
 app.listen(port, () => console.log(`server listen on port : ${port}`));
 
-
+Handlebars.registerHelper("stringify", function(s) {
+  return JSON.stringify(s)
+});
 
