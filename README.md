@@ -12,6 +12,12 @@ installer les dependances
 
 > npm install
 
-lancer le server node avec la commande
+lancer temporairement le server node avec la commande
 
 > node index.js  
+
+lancer le server node comme service
+
+> sudo npm install pm2 -g  
+> pm2 start index.js  
+> pm2 startup
