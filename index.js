@@ -9,9 +9,9 @@ https://www.homedoudou.fr
 
 */
 
-const version = "0.4.1";
+const version = "0.4.2";
 
-const nab = require('./helpers.js');
+const helpers = require('./helpers.js');
 const ddp = require('./ddp.js');
 const choreography = require('./choreography.js');
 
@@ -34,31 +34,60 @@ app.engine('.hbs', exphbs({
   defaultLayout: 'layout',
   partialsDir: './views/layouts/partials/',
   extname: '.hbs',
+  helpers: {
+    version: function() {
+      return version;
+    },
+  }
 }));
 app.set('view engine', '.hbs');
 
 const port = 8076;
+const server = app.listen(port, () => console.log(`server listen on port : ${port}`));
+const io = require('socket.io').listen(server);
+
 let chor = [];
+// helpers.gestalt = {};
 
 app.get('/', (req, res) => {
-  res.render('index');
+  helpers.sendToRabbit('{"type": "gestalt"}', function(gestalt) {
+    if(gestalt) {
+      // helpers.gestalt = gestalt;
+      setTimeout(function() {
+        io.emit('gestalt', gestalt.toString('ascii'));
+      }, 2000);
+    }
+  });
+  const data = {
+    name: "home",
+    // gestalt: helpers.gestalt,
+  };
+  res.render('index', data);
 });
 
 app.get('/nadb', (req, res) => {
-  res.render('nadb', {opCode: choreography.opCode});
+  const data = {
+    name: "nadb",
+    opCode: choreography.opCode,
+  };
+  res.render('nadb', data);
 });
 
 app.post('/nadb', (req, res) => {
   const form = req.body;
 
-  if(form.data) nab.sendToRabbit(form.data);
-  if(form.chor) nab.sendChoreographyToRabbit(form.chor);
+  if(form.data) helpers.sendToRabbit(form.data);
+  if(form.chor) helpers.sendChoreographyToRabbit(form.chor);
 
   res.redirect('/nadb');
 });
 
 app.get('/chorgenerator', (req, res) => {
-  res.render('chorgenerator', {chor: chor});
+  const data = {
+    name: "chorgenerator",
+    chor: chor,
+  };
+  res.render('chorgenerator', data);
 });
 
 app.post('/chorgenerator', (req, res) => {
@@ -74,9 +103,15 @@ app.use(function(req, res, next) {
   res.status(404).send("Sorry can't find that!");
 });
 
-app.listen(port, () => console.log(`server listen on port : ${port}`));
+io.sockets.on('connect', function(socket) {
+  console.log('connect');
+});
 
 Handlebars.registerHelper("stringify", function(s) {
-  return JSON.stringify(s)
+  return JSON.stringify(s);
+});
+
+Handlebars.registerHelper("isActive", function(url, name) {
+  return url === name ? "active" : "";
 });
 

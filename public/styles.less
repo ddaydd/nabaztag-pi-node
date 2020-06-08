@@ -1,3 +1,16 @@
+@color-blue: #138699; //#138699 blue
+@color-red: #992613; //#138699 blue
+@color-green: #439913; //#138699 blue
+@color-purple: #691399; //#138699 blue
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin: 10px 60px;
+}
+
 a {
   text-decoration: none;
   background-color: #0c5460;
@@ -7,12 +20,29 @@ a {
 
 header {
   padding: 20px;
-  a {
+  background-color: #138699;
+  .logo {
+    margin-right: 50px;
     padding: 20px;
+  }
+  a {
+    padding: 10px;
     &:hover {
       background-color: #138699;
     }
+    &.active {
+      background-color: #17b0c7;
+    }
   }
+}
+
+.main {
+  min-height: calc(100% - 187px);
+}
+
+footer {
+  padding: 20px;
+  background-color: #138699;
 }
 
 form {
@@ -40,7 +70,7 @@ button, [type=submit] {
       }
       .form-gen-chor-col {
         padding: 2px;
-        &:nth-child(2){
+        &:nth-child(2) {
           text-align: left;
         }
       }
@@ -50,7 +80,9 @@ button, [type=submit] {
       width: 50px;
     }
     [readonly] {
-      background-color: #ff8888;
+      background-color: @color-red;
+      border: none;
+      color: white;
     }
   }
 }

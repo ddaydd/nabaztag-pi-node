@@ -1,7 +1,14 @@
-<p>
-  Bienvenue
-</p>
+<h1>Tableau de bord</h1>
 
-<p>
-  <a href="https://www.tagtagtag.fr/forum/showthread.php?tid=220" target="_blank">forum projet</a>
-</p>
+<img src="/tag.jpg">
+
+<h2>nadb gestalt</h2>
+
+<p id="gestalt">Chargement...</p>
+
+<script>
+  const socket = io.connect(location.hostname + ':8076');
+  socket.on('gestalt', function(data) {
+    $('#gestalt').html('<pre><code>' + JSON.stringify(JSON.parse(data), null, 4) + '</pre></code>');
+  });
+</script>

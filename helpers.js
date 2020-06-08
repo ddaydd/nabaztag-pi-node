@@ -1,9 +1,10 @@
 const NetcatClient = require('netcat/client');
 
 const helpers = {};
+
 helpers.sendToRabbit = function(data, callback) {
   console.log(data, typeof data);
-  if(!data || typeof data !== 'string') return console.log('Error data');
+  if(!data || typeof data !== 'string') return console.log('Error data, must be string');
 
   // change les nombres "string" en "int"
   data = JSON.stringify(JSON.parse(data, function(k, v) {
@@ -12,18 +13,22 @@ helpers.sendToRabbit = function(data, callback) {
 
   console.log('netcat send : ', data);
   const nc = new NetcatClient();
-  nc.addr('127.0.0.1').port(10543).connect().send(data, function(err) {
+  const client = nc.addr('127.0.0.1').port(10543).connect().send(data, function(err, res) {
     if(err) {
       data = err;
       console.log('netcat ERROR ', err);
     }
     else {
-      console.log("netcat data sent");
+      console.log("netcat data sent", res);
       if(callback) callback();
     }
   }).close(function() {
     console.log('netcat closed');
   });
+
+  client.on('data', function (d) {
+    if(callback) callback(d);
+  })
 
 };
 
