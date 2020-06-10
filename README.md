@@ -20,4 +20,6 @@ lancer le server node comme service
 
 > sudo npm install pm2 -g  
 > pm2 start index.js  
-> pm2 startup
+> sudo pm2 startup systemd -u pi  
+> sudo env PATH=$PATH:/usr/local/bin pm2 startup systemd -u pi --hp /home/pi  
+> pm2 save
