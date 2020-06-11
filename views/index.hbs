@@ -4,11 +4,65 @@
 
 <h2>nadb gestalt</h2>
 
-<p id="gestalt">Chargement...</p>
+<p sg-bind="gestalt"></p>
 
+<input sg-model="gestalt">
+
+<p sg-bind="test"></p>
+
+<input sg-model="test">
 <script>
-  const socket = io.connect(location.hostname + ':8076');
+  let scope = {};
+
+  // mise à jour de l'état du nabaztag
   socket.on('gestalt', function(data) {
-    $('#gestalt').html('<pre><code>' + JSON.stringify(JSON.parse(data), null, 4) + '</pre></code>');
+    scope.gestalt = 'bla<pre><code>' + JSON.stringify(JSON.parse(data), null, 4) + '</pre></code>';
   });
+
+  // data binding de l'etat du lapin
+  const inputElements = document.querySelectorAll('[sg-model]');
+  const inputBinds = document.querySelectorAll('[sg-bind]');
+
+  function twoWayDataBinding() {
+    for(let elem of inputElements) {
+      if(elem.type === 'text') {
+        let propName = elem.getAttribute('sg-model');
+        elem.addEventListener('keyup', e => {
+          scope[propName] = elem.value;
+        });
+        updateDom(propName);
+      }
+    }
+  }
+
+  function updateDom(propName) {
+    console.log(scope);
+    console.log(propName);
+    if(!scope.hasOwnProperty(propName)) {
+      let value;
+      Object.defineProperty(scope, propName, {
+        set: (newValue) => {
+          value = newValue;
+          for(let e1 of inputElements) {
+            if(e1.getAttribute('sg-model') === propName) {
+              e1.value = newValue;
+            }
+          }
+          for(let e2 of inputBinds) {
+            if(e2.getAttribute('sg-bind') === propName) {
+              if(!e2.type) {
+                e2.innerHTML = newValue;
+              }
+            }
+          }
+        },
+        get() {
+          return value;
+        },
+      });
+    }
+  }
+
+  twoWayDataBinding();
+  scope.gestalt = "Chargement...";
 </script>

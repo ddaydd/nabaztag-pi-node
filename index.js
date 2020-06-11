@@ -38,7 +38,7 @@ app.engine('.hbs', exphbs({
     version: function() {
       return version;
     },
-  }
+  },
 }));
 app.set('view engine', '.hbs');
 
@@ -50,14 +50,6 @@ let chor = [];
 // helpers.gestalt = {};
 
 app.get('/', (req, res) => {
-  helpers.sendToRabbit('{"type": "gestalt"}', function(gestalt) {
-    if(gestalt) {
-      // helpers.gestalt = gestalt;
-      setTimeout(function() {
-        io.emit('gestalt', gestalt.toString('ascii'));
-      }, 2000);
-    }
-  });
   const data = {
     name: "home",
     // gestalt: helpers.gestalt,
@@ -104,7 +96,14 @@ app.use(function(req, res, next) {
 });
 
 io.sockets.on('connect', function(socket) {
-  console.log('connect');
+  console.log("client connect");
+  helpers.sendToRabbit('{"type": "gestalt"}', function(gestalt) {
+    if(gestalt) {
+      io.emit('gestalt', gestalt.toString('ascii'));
+    }
+    else
+      io.emit('gestalt', '{}');
+  });
 });
 
 Handlebars.registerHelper("stringify", function(s) {
