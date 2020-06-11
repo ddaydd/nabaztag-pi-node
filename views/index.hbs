@@ -4,61 +4,61 @@
 
 <h2>nadb gestalt</h2>
 
-<p sg-bind="gestalt"></p>
+<div id="ob">
+  <div id="gestalt">
+    <div><span>state</span> : {state}</div>
+    <div><span>uptime</span> : {uptime}</div>
+    <div><span>connections</span> : {connections}</div>
+    <div><span>hardware</span></div>
+    <div><span>model</span> : {model}</div>
+    <div><span>sound_card</span> : {sound_card}</div>
+    <div><span>sound_input</span> : {sound_input}</div>
+    <div><span>rfid</span> : {rfid}</div>
+    <div><span>left_ear_status</span> : {left_ear_status}</div>
+    <div><span>right_ear_status</span> : {right_ear_status}</div>
+  </div>
+</div>
 
-<input sg-model="gestalt" hidden>
 <script>
-  let scope = {};
+
+  const quote_node = document.querySelector('#ob');
+  const keys = quote_node.innerHTML.match(/\{([^}]+)\}/g);
+  const data_blob = {};
+  for (let i = 0; i < keys.length; i++) {
+    const str = keys[i];
+    keys[i] = str.substring(1, str.length - 1);
+    data_blob[keys[i]]="";
+  }
+
+  //proxy
+  const quote_data = new Proxy(data_blob, {
+    set: (target, property, value) => {
+      target[property] = value;
+      quote_node.render(data_blob);
+    },
+  });
+
+
+  quote_node.template = quote_node.innerHTML;
+  quote_node.render = function render(data) {
+    this.innerHTML = this.template.replace(/\{\s?(\w+)\s?\}/g, (match, variable) => {
+      return data[variable] || '';
+    });
+  };
 
   // mise à jour de l'état du nabaztag
   socket.on('gestalt', function(data) {
-    scope.gestalt = 'bla<pre><code>' + JSON.stringify(JSON.parse(data), null, 4) + '</pre></code>';
+    const dataObj = JSON.parse(data);
+    Object.keys(dataObj).forEach(function(key) {
+      if(key === 'hardware') {
+        const hardware = dataObj[key];
+        Object.keys(hardware).forEach(function(key) {
+          quote_data[key] = hardware[key];
+        });
+      }
+      else
+        quote_data[key] = dataObj[key];
+    });
   });
 
-  // data binding de l'etat du lapin
-  const inputElements = document.querySelectorAll('[sg-model]');
-  const inputBinds = document.querySelectorAll('[sg-bind]');
-
-  function twoWayDataBinding() {
-    for(let elem of inputElements) {
-      if(elem.type === 'text') {
-        let propName = elem.getAttribute('sg-model');
-        elem.addEventListener('keyup', e => {
-          scope[propName] = elem.value;
-        });
-        updateDom(propName);
-      }
-    }
-  }
-
-  function updateDom(propName) {
-    console.log(scope);
-    console.log(propName);
-    if(!scope.hasOwnProperty(propName)) {
-      let value;
-      Object.defineProperty(scope, propName, {
-        set: (newValue) => {
-          value = newValue;
-          for(let e1 of inputElements) {
-            if(e1.getAttribute('sg-model') === propName) {
-              e1.value = newValue;
-            }
-          }
-          for(let e2 of inputBinds) {
-            if(e2.getAttribute('sg-bind') === propName) {
-              if(!e2.type) {
-                e2.innerHTML = newValue;
-              }
-            }
-          }
-        },
-        get() {
-          return value;
-        },
-      });
-    }
-  }
-
-  twoWayDataBinding();
-  scope.gestalt = "Chargement...";
 </script>
