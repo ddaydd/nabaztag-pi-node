@@ -1,22 +1,26 @@
+<a href="/chorFiles" class="float-right">Files</a>
+
 <h1>Generateur de choregraphie (in progress...)</h1>
-
-<!--<form>--><!--  <div>--><!--    <label>wait</label>--><!--    <input name="wait" value="0">--><!--  </div>--><!--  </div>--><!--  <div>--><!--    <label>opCode</label>--><!--    <select name="opCode">-->
-  <!--      {{#each opCode}}-->
-<!--        <option value="{{value}}">{{name}}</option>-->
-  <!--      {{/each}}-->
-<!--    </select>--><!--  </div>--><!--</form>-->
-
-{{{stringify chor}}}
 
 <div id="generator">
 
+  <form action="/chorgenerator" method="POST">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col overflow-auto">{{stringify chor}}</div>
+      <div class="gen-chor-col"></div>
+      <div class="gen-chor-col">
+        <input type="submit" name="save" value="save" class="btn-purple">
+      </div>
+    </div>
+  </form>
+
   <!-- RESET --------------------->
   <form action="/chorgenerator" method="POST">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">Attente, Commande,</div>
-      <div class="form-gen-chor-col">Paramètres</div>
-      <div class="form-gen-chor-col">
-        <input type="submit" name="reset" value="reset">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">Attente, Commande,</div>
+      <div class="gen-chor-col">Paramètres</div>
+      <div class="gen-chor-col">
+        <input type="submit" name="reset" value="reset" class="btn-danger">
       </div>
     </div>
   </form>
@@ -24,16 +28,16 @@
   <!-- ATTEND --------------------->
   <form name="f1" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         attend [CH_attend]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" size="3" min="0" max="255">
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="19" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col"></div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col"></div>
+      <div class="gen-chor-col">
         <input type="submit" name="f1Form" value="insert">
       </div>
     </div>
@@ -42,8 +46,8 @@
   <!-- MIDI --------------------->
   <form name="f2" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         midi [CH_randmidi]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -51,8 +55,8 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="16" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col"></div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col"></div>
+      <div class="gen-chor-col">
         <input type="submit" name="f1Form" value="insert">
       </div>
     </div>
@@ -61,8 +65,8 @@
   <!-- tempo ------------------->
   <form name="f3" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         time (Nb of ms between two actions) [CH_frame_duration]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -70,7 +74,7 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="1" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <select name="chorValue[]">
           <option value="0">0</option>
           <option value="1">1</option>
@@ -330,7 +334,7 @@
           <option value="255">255</option>
         </select>
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f3Form" value="insert">
       </div>
     </div>
@@ -343,8 +347,8 @@
   <!-- orecchio destro -->
   <form name="f4" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         ear right [CH_set_motor]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -352,7 +356,7 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="8" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <!-- dx o sx -->
         <input name="chorValue[]" value="0" readonly="" size="1" class="ColoreReadonly">
         <!-- angolo -->
@@ -383,7 +387,7 @@
           <option value="1">counterclockwise rotation</option>
         </select>
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f4Form" value="insert">
       </div>
     </div>
@@ -396,8 +400,8 @@
   <!-- orecchio sinistro -->
   <form name="f5" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         ear left [CH_set_motor]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -405,7 +409,7 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="8" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <!-- dx o sx -->
         <input name="chorValue[]" value="1" readonly="" size="1" class="ColoreReadonly">
         <!-- angolo -->
@@ -436,7 +440,7 @@
           <option value="1">counterclockwise rotation</option>
         </select>
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f5Form" value="insert">
       </div>
     </div>
@@ -449,8 +453,8 @@
   <form name="f6" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
     <!-- orecchio destro step -->
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         ear right step [CH_avance]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -458,13 +462,13 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="17" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <!-- dx o sx -->
         <input name="chorValue[]" value="0" readonly="" size="1" class="ColoreReadonly">
         <!-- steps -->
         <input name="chorValue[]" value="0" size="2">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f6Form" value="insert">
       </div>
     </div>
@@ -477,8 +481,8 @@
   <form name="f7" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
     <!-- orecchio sinistro step -->
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         ear left step [CH_avance]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -486,13 +490,13 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="17" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <!-- dx o sx -->
         <input name="chorValue[]" value="1" readonly="" size="1" class="ColoreReadonly">
         <!-- steps -->
         <input name="chorValue[]" value="0" size="2">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f7Form" value="insert">
       </div>
     </div>
@@ -503,13 +507,13 @@
   <!-- LED --------------------------------------------->
   <!-- LED --------------------------------------------->
   <form name="f8" action="/chorgenerator" method="POST"><input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         - LED_BOTTOM [CH_set_led_color]
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
         <input class="op-code" name="chorValue[]" value="7" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="text" name="chorValue[]" value="0" readonly="" size="1" class="ColoreReadonly">
         <input type="text" name="chorValue[]" value="0" size="3">
         <input type="text" name="chorValue[]" value="0" size="3">
@@ -535,20 +539,20 @@
         </select>
         <span id="f8Colore" style="border-radius:50px;background-color: rgb(0,0,0);">  </span>
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f8Form" value="insert">
       </div>
     </div>
 
   </form>
   <form name="f9" action="/chorgenerator" method="POST"><input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         - LED_LEFT [CH_set_led_color]
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
         <input class="op-code" name="chorValue[]" value="7" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="text" name="chorValue[]" value="1" readonly="" size="1" class="ColoreReadonly">
         <input type="text" name="chorValue[]" value="0" size="3">
         <input type="text" name="chorValue[]" value="0" size="3">
@@ -574,19 +578,19 @@
         </select>
         <span id="f9Colore" style="border-radius:50px;background-color: rgb(0,0,0);">  </span>
       </div>
-      <div class="form-gen-chor-col"><input type="submit" name="f9Form" value="insert"></div>
+      <div class="gen-chor-col"><input type="submit" name="f9Form" value="insert"></div>
     </div>
   </form>
 
   <form name="f10" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         - LED_MIDDLE [CH_set_led_color]
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
         <input class="op-code" name="chorValue[]" value="7" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="text" name="chorValue[]" value="2" readonly="" size="1" class="ColoreReadonly">
         <input type="text" name="chorValue[]" value="0" size="3">
         <input type="text" name="chorValue[]" value="0" size="3">
@@ -612,19 +616,19 @@
         </select>
         <span id="f10Colore" style="border-radius:50px;background-color: rgb(0,0,0);">  </span>
       </div>
-      <div class="form-gen-chor-col"><input type="submit" name="f10Form" value="insert"></div>
+      <div class="gen-chor-col"><input type="submit" name="f10Form" value="insert"></div>
     </div>
   </form>
 
   <form name="f11" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         - LED_RIGHT [CH_set_led_color]
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
         <input class="op-code" name="chorValue[]" value="7" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="text" name="chorValue[]" value="3" readonly="" size="1" class="ColoreReadonly">
         <input type="text" name="chorValue[]" value="0" size="3">
         <input type="text" name="chorValue[]" value="0" size="3">
@@ -650,18 +654,18 @@
         </select>
         <span id="f11Colore" style="border-radius:50px;background-color: rgb(0,0,0);">  </span>
       </div>
-      <div class="form-gen-chor-col"><input type="submit" name="f11Form" value="insert"></div>
+      <div class="gen-chor-col"><input type="submit" name="f11Form" value="insert"></div>
     </div>
   </form>
   <form name="f12" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         - LED_TOP [CH_set_led_color]
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
         <input class="op-code" name="chorValue[]" value="7" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="text" name="chorValue[]" value="4" readonly="" size="1" class="ColoreReadonly">
         <input type="text" name="chorValue[]" value="0" size="3">
         <input type="text" name="chorValue[]" value="0" size="3">
@@ -687,7 +691,7 @@
         </select>
         <span id="f12Colore" style="border-radius:50px;background-color: rgb(0,0,0);">  </span>
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f12Form" value="insert">
       </div>
     </div>
@@ -698,8 +702,8 @@
   <!-- LED TUTTI ------------------>
   <form name="f13" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         LEDS ALL [CH_set_leds_color]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -707,7 +711,7 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="9" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="text" name="chorValue[]" value="0" size="3">
         <input type="text" name="chorValue[]" value="0" size="3">
         <input type="text" name="chorValue[]" value="0" size="3">
@@ -730,7 +734,7 @@
         </select>
         <span id="f13Colore" style="border-radius:50px;background-color: rgb(0,0,0);">  </span>
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f13Form" value="insert">
       </div>
     </div>
@@ -742,8 +746,8 @@
   <!-- LEDS OFF ---------------------->
   <form name="f14" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         led off [CH_set_led_off]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -751,10 +755,10 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="10" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="text" name="chorValue[]" value="0" size="1" readonly="" class="ColoreReadonly">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f14Form" value="insert">
       </div>
     </div>
@@ -763,8 +767,8 @@
   <form name="f15" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
     <!-- set motor dir -->
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         set motor dir right [CH_setmotordir]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -772,12 +776,12 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="20" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <!-- dx o sx -->
         <input name="chorValue[]" value="0" size="1" readonly="" class="ColoreReadonly">
         <input name="chorValue[]" value="0" size="3">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f15Form" value="insert">
       </div>
     </div>
@@ -786,8 +790,8 @@
   <form name="f15a" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
     <!-- set motor dir -->
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         set motor dir left [CH_setmotordir]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -795,12 +799,12 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="20" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <!-- dx o sx -->
         <input name="chorValue[]" value="1" size="1" readonly="" class="ColoreReadonly">
         <input name="chorValue[]" value="0" size="3">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f15aForm" value="insert">
       </div>
     </div>
@@ -809,8 +813,8 @@
   <form name="f16" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
     <!-- set motor dir -->
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         set palette [CH_set_led_palette]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -818,12 +822,12 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="14" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <!-- ?? -->
         <input name="chorValue[]" value="0" size="3">
         <input name="chorValue[]" value="0" size="3">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f16Form" value="insert">
       </div>
     </div>
@@ -832,8 +836,8 @@
   <form name="f17" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
     <!-- set motor dir -->
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         if=x jump blk of bytes len specified [CH_ifne]
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
@@ -841,13 +845,13 @@
         <!-- command -->
         <input class="op-code" name="chorValue[]" value="18" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <!--  -->
         <input name="chorValue[]" value="0" size="3">
         <input name="chorValue[]" value="0" size="3">
         <input name="chorValue[]" value="0" size="3">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="f17Form" value="insert">
       </div>
     </div>
@@ -859,22 +863,22 @@
   <!--------------------- FILEMIDI ---------------->
   <form name="fMidi" action="/chorgenerator" method="POST">
     <input name="nomeFile" type="hidden" value="tmp/chor.chor">
-    <div class="form-gen-chor-line">
-      <div class="form-gen-chor-col">
+    <div class="gen-chor-line">
+      <div class="gen-chor-col">
         (bootcode modified) filemidi
         <!-- ts -->
         <input type="number" name="chorValue[]" value="0" min="0" max="255">
         <!-- comando nuovo -->
         <input class="op-code" name="chorValue[]" value="30" readonly="" size="1">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <!-- lun dati midi autogenerati -->
         <input type="text" name="chorValue[]" value="0" size="3">
         <input type="text" name="chorValue[]" value="0" size="3">
         <!-- dati in esa -->
         <input type="text" name="chorValue[]">
       </div>
-      <div class="form-gen-chor-col">
+      <div class="gen-chor-col">
         <input type="submit" name="fMidi" value="insert">
       </div>
     </div>

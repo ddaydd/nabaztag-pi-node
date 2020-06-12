@@ -20,7 +20,9 @@
 </div>
 
 <script>
+  // https://www.inrhythm.com/one-directional-data-binding/
 
+  // initialisation des variables template
   const quote_node = document.querySelector('#ob');
   const keys = quote_node.innerHTML.match(/\{([^}]+)\}/g);
   const data_blob = {};
@@ -37,7 +39,6 @@
       quote_node.render(data_blob);
     },
   });
-
 
   quote_node.template = quote_node.innerHTML;
   quote_node.render = function render(data) {

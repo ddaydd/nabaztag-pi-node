@@ -26,9 +26,9 @@ helpers.sendToRabbit = function(data, callback) {
     console.log('netcat closed');
   });
 
-  client.on('data', function (d) {
+  client.on('data', function(d) {
     if(callback) callback(d);
-  })
+  });
 
 };
 
@@ -104,6 +104,18 @@ helpers.ledWrapper = function(led, color, callback) {
   const base64ch = Buffer.from(String.fromCharCode.apply(null, [0, 7, led, rgba[0], rgba[1], rgba[2], 0, 0])).toString('base64');
   console.log('base64ch', base64ch);
   helpers.sendToRabbit(JSON.stringify({"sequence": [{"choreography": "data:application/x-nabaztag-mtl-choreography;base64," + base64ch}]}), callback);
+};
+
+helpers.getFormattedTime = function() {
+  const today = new Date();
+  const y = today.getFullYear();
+  // JavaScript months are 0-based.
+  const m = ("0" + (today.getMonth() + 1)).slice(-2);
+  const d = ("0" + today.getDate()).slice(-2)
+  const h = ("0" + today.getHours()).slice(-2);
+  const mi = ("0" + today.getMinutes()).slice(-2);
+  const s = ("0" + today.getSeconds()).slice(-2);
+  return y + "-" + m + "-" + d + "_" + h + "-" + mi + "-" + s;
 };
 
 module.exports = helpers;

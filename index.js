@@ -9,7 +9,7 @@ https://www.homedoudou.fr
 
 */
 
-const version = "0.4.2";
+const version = "0.5";
 
 const helpers = require('./helpers.js');
 const ddp = require('./ddp.js');
@@ -26,6 +26,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const Handlebars = require('handlebars');
 const bodyParser = require("body-parser");
+const fs = require('fs');
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
@@ -86,13 +87,35 @@ app.post('/chorgenerator', (req, res) => {
   const form = req.body;
   console.log('form.chorValue', form.chorValue);
   if(form.reset === 'reset') chor = [];
+  else if(form.save === 'save') {
+    const base64ch = Buffer.from(String.fromCharCode.apply(null, chor)).toString('base64');
+    console.log('base64ch', base64ch);
+    helpers.sendToRabbit(JSON.stringify({"type": "command", "sequence": [{"choreography": "data:application/x-nabaztag-mtl-choreography;base64," + base64ch}]}));
+    fs.writeFile('./public/chorFiles/generated_' + helpers.getFormattedTime() + '.chor', base64ch, function(err) {
+      if(err) return console.log(err);
+    });
+  }
   else chor = chor.concat(form.chorValue);
   console.log(chor);
   res.redirect('/chorgenerator');
 });
 
+app.get('/chorFiles', (req, res) => {
+
+  const fs = require('fs');
+
+  const filenames = fs.readdirSync('./public/chorFiles/');
+
+  const data = {
+    name: "chorFiles",
+    chor: chor,
+    filenames: filenames
+  };
+  res.render('chorFiles', data);
+});
+
 app.use(function(req, res, next) {
-  res.status(404).send("Sorry can't find that!");
+  res.status(404).render('404');
 });
 
 io.sockets.on('connect', function(socket) {
