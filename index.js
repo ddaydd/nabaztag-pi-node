@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
     name: "home",
     // gestalt: helpers.gestalt,
   };
-  res.render('index', data);
+  res.render('home', data);
 });
 
 app.get('/nadb', (req, res) => {

@@ -26,10 +26,10 @@
   const quote_node = document.querySelector('#ob');
   const keys = quote_node.innerHTML.match(/\{([^}]+)\}/g);
   const data_blob = {};
-  for (let i = 0; i < keys.length; i++) {
+  for(let i = 0; i < keys.length; i++) {
     const str = keys[i];
     keys[i] = str.substring(1, str.length - 1);
-    data_blob[keys[i]]="";
+    data_blob[keys[i]] = "";
   }
 
   //proxy
@@ -51,6 +51,7 @@
   socket.on('gestalt', function(data) {
     const dataObj = JSON.parse(data);
     Object.keys(dataObj).forEach(function(key) {
+      if(key === 'uptime') dataObj[key] = helpers.toHHMMSS(dataObj[key]);
       if(key === 'hardware') {
         const hardware = dataObj[key];
         Object.keys(hardware).forEach(function(key) {

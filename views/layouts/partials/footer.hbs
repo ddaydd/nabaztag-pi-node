@@ -3,5 +3,20 @@
     version : {{version}}
     <a href="https://www.tagtagtag.fr/forum/showthread.php?tid=220" target="_blank">forum du projet</a>
     <a href="https://github.com/nabaztag2018/pynab/blob/master/PROTOCOL.md" target="_blank">protocol nadb</a>
+    <a href=":80/" target="_blank">pynab</a>
   </div>
 </footer>
+<script>
+  document.addEventListener('click', function(event) {
+    const target = event.target;
+    if (target.tagName.toLowerCase() === 'a')
+    {
+      const port = target.getAttribute('href').match(/^:(\d+)(.*)/);
+      if (port)
+      {
+        target.href = window.location.origin;
+        target.port = port[1];
+      }
+    }
+  }, false);
+</script>
