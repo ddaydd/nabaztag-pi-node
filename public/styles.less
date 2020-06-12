@@ -1,4 +1,5 @@
 @color-blue: #138699;
+@color-blue-light: #17b0c7;
 @color-red: #992613;
 @color-green: #439913;
 @color-purple: #691399;
@@ -63,19 +64,19 @@ button, [type=submit] {
   form {
     text-align: right;
     margin: 0;
-    [type=submit]{
+    [type=submit] {
       cursor: pointer;
     }
   }
-
   .gen-chor-line {
     padding: 0 50px;
     margin-bottom: 10px;
     display: grid;
     grid-template-columns: 50% 50% 50px;
-    background-color: #cdcdcd;
+    text-transform: lowercase;
     &:hover {
-      background-color: #eaeaea;
+      background-color: @color-blue;
+      color: white;
     }
     .gen-chor-col {
       padding: 2px;
@@ -95,9 +96,9 @@ button, [type=submit] {
   }
 }
 
-#ob{
-  div{
-    span{
+#ob {
+  div {
+    span {
       display: inline-block;
       text-transform: uppercase;
       font-weight: bold;
@@ -107,22 +108,22 @@ button, [type=submit] {
   }
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
-.overflow-auto{
+.overflow-auto {
   overflow: auto;
 }
 
-.float-right{
+.float-right {
   float: right;
 }
 
-.btn-purple{
+.btn-purple {
   background-color: @color-purple;
 }
 
-.btn-red, .btn-danger{
+.btn-red, .btn-danger {
   background-color: @color-red;
 }

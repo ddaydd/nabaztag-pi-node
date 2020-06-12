@@ -79,6 +79,17 @@ app.get('/chorgenerator', (req, res) => {
   const data = {
     name: "chorgenerator",
     chor: chor,
+    options: function() {
+      const options = [];
+      for(let i = 0; i <= 255; i++) {
+        if(i === 16)
+          options.push({value: i, text: i, isSelected: true});
+        else
+          options.push({value: i, text: i});
+      }
+      return options;
+    },
+
   };
   res.render('chorgenerator', data);
 });
@@ -109,7 +120,7 @@ app.get('/chorFiles', (req, res) => {
   const data = {
     name: "chorFiles",
     chor: chor,
-    filenames: filenames
+    filenames: filenames,
   };
   res.render('chorFiles', data);
 });
