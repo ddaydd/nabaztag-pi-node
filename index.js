@@ -67,12 +67,14 @@ app.get('/nadb', (req, res) => {
 });
 
 app.post('/nadb', (req, res) => {
+  console.log(req);
+  console.log(req.headers.referer);
   const form = req.body;
 
   if(form.data) helpers.sendToRabbit(form.data);
   if(form.chor) helpers.sendChoreographyToRabbit(form.chor);
 
-  res.redirect('/nadb');
+  res.redirect(req.headers.referer);
 });
 
 app.get('/chorgenerator', (req, res) => {
@@ -131,12 +133,16 @@ app.use(function(req, res, next) {
 
 io.sockets.on('connect', function(socket) {
   console.log("client connect");
-  helpers.sendToRabbit('{"type": "gestalt"}', function(gestalt) {
-    if(gestalt) {
-      io.emit('gestalt', gestalt.toString('ascii'));
-    }
-    else
-      io.emit('gestalt', '{}');
+
+  socket.on('getGestalt', function() {
+    console.log('test');
+    helpers.sendToRabbit('{"type": "gestalt"}', function(gestalt) {
+      if(gestalt) {
+        socket.emit('gestalt', gestalt.toString('ascii'));
+      }
+      else
+        socket.emit('gestalt', '{}');
+    });
   });
 });
 

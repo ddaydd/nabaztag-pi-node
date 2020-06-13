@@ -1,6 +1,12 @@
 <h1>Tableau de bord</h1>
 
-<img src="/tag.jpg">
+<div class="float-right">
+  <img src="/tag.jpg" width="160">
+</div>
+
+<h2>Mode</h2>
+<form method="post" action="/nadb" class="d-inline"><input name="data" value='{"type":"mode","mode":"interactive"}' hidden><button type="submit">interactive</button></form>
+<form method="post" action="/nadb" class="d-inline"><input name="data" value='{"type":"mode","mode":"idle"}' hidden><button type="submit">idle</button></form>
 
 <h2>nadb gestalt</h2>
 
@@ -48,7 +54,13 @@
   };
 
   // mise à jour de l'état du nabaztag
+  socket.on('connect', function() {
+    console.log('connect');
+    socket.emit('getGestalt');
+  });
+
   socket.on('gestalt', function(data) {
+    console.log('test');
     const dataObj = JSON.parse(data);
     Object.keys(dataObj).forEach(function(key) {
       if(key === 'uptime') dataObj[key] = helpers.toHHMMSS(dataObj[key]);
