@@ -14,6 +14,7 @@ const version = "0.5";
 const helpers = require('./helpers.js');
 const ddp = require('./ddp.js');
 const choreography = require('./choreography.js');
+const os = require('os');
 
 // Connexion homedoudou.fr en websocket
 // const host = '127.0.0.1:3000';
@@ -53,7 +54,12 @@ let chor = [];
 app.get('/', (req, res) => {
   const data = {
     name: "home",
-    // gestalt: helpers.gestalt,
+    os: {
+      platform: os.platform(),
+      arch: os.arch(),
+      cpus: os.cpus(),
+      freemem: helpers.bytesToSize(os.freemem()),
+    },
   };
   res.render('home', data);
 });
@@ -67,8 +73,6 @@ app.get('/nabd', (req, res) => {
 });
 
 app.post('/nabd', (req, res) => {
-  console.log(req);
-  console.log(req.headers.referer);
   const form = req.body;
 
   if(form.data) helpers.sendToRabbit(form.data);
@@ -147,7 +151,7 @@ io.sockets.on('connect', function(socket) {
 });
 
 Handlebars.registerHelper("stringify", function(s) {
-  return JSON.stringify(s);
+  return JSON.stringify(s, null, 4);
 });
 
 Handlebars.registerHelper("isActive", function(url, name) {

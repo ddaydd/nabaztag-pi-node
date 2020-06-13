@@ -1,10 +1,10 @@
-<h1>Tableau de bord</h1>
+<h1>tableau de bord</h1>
 
 <div class="float-right">
   <img src="/tag.jpg" width="160">
 </div>
 
-<h2>Mode</h2>
+<h2>mode</h2>
 <form method="post" action="/nabd" class="d-inline"><input name="data" value='{"type":"mode","mode":"interactive"}' hidden><button type="submit">interactive</button></form>
 <form method="post" action="/nabd" class="d-inline"><input name="data" value='{"type":"mode","mode":"idle"}' hidden><button type="submit">idle</button></form>
 <form method="post" action="/nabd" class="d-inline"><input name="data" value='{"type":"wakeup"}' hidden><button type="submit">wakeup</button></form>
@@ -12,7 +12,7 @@
 
 <h2>nabd gestalt</h2>
 
-<div id="ob">
+<div class="ob">
   <div id="gestalt">
     <div><span>state</span> : {state}</div>
     <div><span>uptime</span> : {uptime}</div>
@@ -27,11 +27,20 @@
   </div>
 </div>
 
+<h2>operating system</h2>
+
+<div class="ob">
+  <div><span>platform</span> : {{os.platform}}</div>
+  <div><span>arch</span> : {{os.arch}}</div>
+  <div><span>freemem</span> : {{os.freemem}}</div>
+  <div><span>cpus</span> : <pre>{{stringify os.cpus}}</pre></div>
+</div>
+
 <script>
   // https://www.inrhythm.com/one-directional-data-binding/
 
   // initialisation des variables template
-  const quote_node = document.querySelector('#ob');
+  const quote_node = document.querySelector('#gestalt');
   const keys = quote_node.innerHTML.match(/\{([^}]+)\}/g);
   const data_blob = {};
   for(let i = 0; i < keys.length; i++) {

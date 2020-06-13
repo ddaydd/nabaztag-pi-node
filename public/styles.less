@@ -12,6 +12,14 @@ html, body {
   margin: 10px 60px;
 }
 
+h1, h2 {
+  text-transform: capitalize;
+}
+
+h2{
+  text-decoration: underline;
+}
+
 a {
   text-decoration: none;
   background-color: #0c5460;
@@ -59,6 +67,7 @@ button, [type=submit] {
   border: none;
   color: white;
 }
+
 form {
   text-align: right;
   margin: 0;
@@ -66,6 +75,7 @@ form {
     cursor: pointer;
   }
 }
+
 #generator {
   .gen-chor-line {
     padding: 0 50px;
@@ -95,7 +105,7 @@ form {
   }
 }
 
-#ob {
+.ob {
   div {
     span {
       display: inline-block;
@@ -127,6 +137,11 @@ form {
   background-color: @color-red;
 }
 
-.d-inline{
+.d-inline {
   display: inline-block;
+}
+
+pre{
+  display: inline-block;
+  vertical-align: text-top;
 }
