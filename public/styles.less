@@ -9,14 +9,14 @@ html, body {
 }
 
 .container {
-  margin: 10px 60px;
+  margin: 10px auto;
 }
 
 h1, h2 {
   text-transform: capitalize;
 }
 
-h2{
+h2 {
   text-decoration: underline;
 }
 
@@ -141,7 +141,32 @@ form {
   display: inline-block;
 }
 
-pre{
+pre {
   display: inline-block;
   vertical-align: text-top;
+}
+
+//responsive
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
 }

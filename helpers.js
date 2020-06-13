@@ -13,13 +13,12 @@ helpers.sendToRabbit = function(data, callback) {
 
   console.log('netcat send : ', data);
   const nc = new NetcatClient();
-  const client = nc.addr('127.0.0.1').port(10543).connect().send(data, function(err, res) {
+  const client = nc.addr('127.0.0.1').port(10543).connect().send(data, function(err) {
     if(err) {
       data = err;
       console.log('netcat ERROR ', err);
     }
     else {
-      console.log("netcat data sent", res);
       if(callback) callback();
     }
   }).close(function() {
@@ -27,6 +26,9 @@ helpers.sendToRabbit = function(data, callback) {
   });
 
   client.on('data', function(d) {
+    console.log(JSON.stringify(d));
+    console.log('---');
+    console.log(d.toString('ascii'));
     if(callback) callback(d);
   });
 
@@ -111,7 +113,7 @@ helpers.getFormattedTime = function() {
   const y = today.getFullYear();
   // JavaScript months are 0-based.
   const m = ("0" + (today.getMonth() + 1)).slice(-2);
-  const d = ("0" + today.getDate()).slice(-2)
+  const d = ("0" + today.getDate()).slice(-2);
   const h = ("0" + today.getHours()).slice(-2);
   const mi = ("0" + today.getMinutes()).slice(-2);
   const s = ("0" + today.getSeconds()).slice(-2);
@@ -120,9 +122,9 @@ helpers.getFormattedTime = function() {
 
 helpers.bytesToSize = function(bytes) {
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return '0 Byte';
+  if(bytes === 0) return '0 Byte';
   const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-}
+};
 
 module.exports = helpers;

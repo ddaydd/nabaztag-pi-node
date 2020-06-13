@@ -142,7 +142,6 @@ io.sockets.on('connect', function(socket) {
   console.log("client connect");
 
   socket.on('getGestalt', function() {
-    console.log('test');
     helpers.sendToRabbit('{"type": "gestalt"}', function(gestalt) {
       if(gestalt) {
         socket.emit('gestalt', gestalt.toString('ascii'));
