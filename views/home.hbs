@@ -33,57 +33,36 @@
   <div><span>platform, arch</span> : {{os.platform}}, {{os.arch}}</div>
   <div><span>type, release</span> : {{os.type}},  {{os.release}}</div>
   <div><span>freemem / totalmem</span> : {{os.freemem}} / {{os.totalmem}}</div>
-  <div><span>cpus</span> : <pre>{{stringify os.cpus}}</pre></div>
+  <div><span>cpus</span> :
+    <pre>{{stringify os.cpus}}</pre>
+  </div>
 </div>
 
-<script>
-  // https://www.inrhythm.com/one-directional-data-binding/
-
-  // initialisation des variables template
-  const quote_node = document.querySelector('#gestalt');
-  const keys = quote_node.innerHTML.match(/\{([^}]+)\}/g);
-  const data_blob = {};
-  for(let i = 0; i < keys.length; i++) {
-    const str = keys[i];
-    keys[i] = str.substring(1, str.length - 1);
-    data_blob[keys[i]] = "";
-  }
-
-  //proxy
-  const quote_data = new Proxy(data_blob, {
-    set: (target, property, value) => {
-      target[property] = value;
-      quote_node.render(data_blob);
-    },
-  });
-
-  quote_node.template = quote_node.innerHTML;
-  quote_node.render = function render(data) {
-    this.innerHTML = this.template.replace(/\{\s?(\w+)\s?\}/g, (match, variable) => {
-      return data[variable] || '';
-    });
-  };
+<script type="module">
 
   // mise à jour de l'état du nabaztag
+
+  import {obReact} from './js/modules/ob-react.mjs';
+  const obReactData = obReact.setReactData('#gestalt');
+
+  window.socket = io.connect(location.hostname + ':8076');
   socket.on('connect', function() {
     console.log('connect');
     socket.emit('getGestalt');
   });
 
   socket.on('gestalt', function(data) {
-    console.log('test');
     const dataObj = JSON.parse(data);
     Object.keys(dataObj).forEach(function(key) {
       if(key === 'uptime') dataObj[key] = helpers.toHHMMSS(dataObj[key]);
       if(key === 'hardware') {
         const hardware = dataObj[key];
         Object.keys(hardware).forEach(function(key) {
-          quote_data[key] = hardware[key];
+          obReactData[key] = hardware[key];
         });
       }
       else
-        quote_data[key] = dataObj[key];
+        obReactData[key] = dataObj[key];
     });
   });
-
 </script>

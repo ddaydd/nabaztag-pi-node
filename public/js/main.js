@@ -1,4 +1,3 @@
-const socket = io.connect(location.hostname + ':8076');
 const helpers = {};
 
 helpers.toHHMMSS = function(s) {
