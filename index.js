@@ -57,8 +57,11 @@ app.get('/', (req, res) => {
     os: {
       platform: os.platform(),
       arch: os.arch(),
+      type: os.type(),
+      release: os.release(),
       cpus: os.cpus(),
       freemem: helpers.bytesToSize(os.freemem()),
+      totalmem: helpers.bytesToSize(os.totalmem()),
     },
   };
   res.render('home', data);
