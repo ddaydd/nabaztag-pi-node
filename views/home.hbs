@@ -12,37 +12,52 @@
 
 <h2>nabd gestalt</h2>
 
-<div class="ob">
-  <div id="gestalt">
-    <div><span>state</span> : {state}</div>
-    <div><span>uptime</span> : {uptime}</div>
-    <div><span>connections</span> : {connections}</div>
-    <div><span>hardware</span></div>
-    <div><span>model</span> : {model}</div>
-    <div><span>sound_card</span> : {sound_card}</div>
-    <div><span>sound_input</span> : {sound_input}</div>
-    <div><span>rfid</span> : {rfid}</div>
-    <div><span>left_ear_status</span> : {left_ear_status}</div>
-    <div><span>right_ear_status</span> : {right_ear_status}</div>
+<div id="gestalt">
+  <div class="ob">
+    <div>state</div>
+    <div>{state}</div>
+    <div>uptime</div>
+    <div>{uptime}</div>
+    <div>connections</div>
+    <div>{connections}</div>
+    <div>hardware</div>
+    <div></div>
+    <div>model</div>
+    <div>{model}</div>
+    <div>sound_card</div>
+    <div>{sound_card}</div>
+    <div>sound_input</div>
+    <div>{sound_input}</div>
+    <div>rfid</div>
+    <div>{rfid}</div>
+    <div>left_ear_status</div>
+    <div>{left_ear_status}</div>
+    <div>right_ear_status</div>
+    <div>{right_ear_status}</div>
   </div>
 </div>
 
 <h2>operating system</h2>
 
 <div class="ob">
-  <div><span>platform, arch</span> : {{os.platform}}, {{os.arch}}</div>
-  <div><span>type, release</span> : {{os.type}},  {{os.release}}</div>
-  <div><span>freemem / totalmem</span> : {{os.freemem}} / {{os.totalmem}}</div>
-  <div><span>cpus</span> :
+  <div>platform, arch</div>
+  <div>{{os.platform}}, {{os.arch}}</div>
+  <div>type, release</div>
+  <div>{{os.type}}, {{os.release}}</div>
+  <div>freemem / totalmem</div>
+  <div>{{os.freemem}} / {{os.totalmem}}</div>
+  <div>cpus</div>
+  <div>
     <pre>{{stringify os.cpus}}</pre>
   </div>
-</div>
+</div></div>
 
 <script type="module">
 
   // mise à jour de l'état du nabaztag
 
   import {obReact} from './js/modules/ob-react.mjs';
+
   const obReactData = obReact.setReactData('#gestalt');
 
   window.socket = io.connect(location.hostname + ':8076');

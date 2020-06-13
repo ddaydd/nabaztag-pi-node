@@ -1,7 +1,9 @@
 @color-blue: #138699;
+@color-blue-dark: #0c5460;
 @color-blue-light: #17b0c7;
 @color-red: #992613;
 @color-green: #439913;
+@color-green-light: #53bd19;
 @color-purple: #691399;
 html, body {
   margin: 0;
@@ -22,7 +24,7 @@ h2 {
 
 a {
   text-decoration: none;
-  background-color: #0c5460;
+  background-color: @color-blue-dark;
   color: white;
   padding: 5px;
   margin: 1px;
@@ -31,7 +33,7 @@ a {
 
 header {
   padding: 20px;
-  background-color: #138699;
+  background-color: @color-blue;
   .logo {
     margin-right: 50px;
     padding: 20px;
@@ -39,10 +41,10 @@ header {
   a {
     padding: 10px;
     &:hover {
-      background-color: #138699;
+      background-color: @color-blue;
     }
     &.active {
-      background-color: #17b0c7;
+      background-color: @color-blue-light;
     }
   }
 }
@@ -53,7 +55,7 @@ header {
 
 footer {
   padding: 20px;
-  background-color: #138699;
+  background-color: @color-blue;
 }
 
 form {
@@ -61,11 +63,15 @@ form {
 }
 
 button, [type=submit] {
+  cursor: pointer;
   padding: 5px;
   margin: 2px;
-  background-color: #138699;
+  background-color: @color-blue-dark;
   border: none;
   color: white;
+  &:hover {
+    background-color: @color-blue-light;
+  }
 }
 
 form {
@@ -106,13 +112,16 @@ form {
 }
 
 .ob {
+  background-color: @color-green-light;
+  display: grid;
+  grid-template-columns: 200px 1fr;
   div {
-    span {
-      display: inline-block;
+    padding: 10px;
+    &:nth-child(odd) {
+      text-align: right;
       text-transform: uppercase;
       font-weight: bold;
-      width: 200px;
-      text-align: right;
+      background-color: @color-green;
     }
   }
 }
