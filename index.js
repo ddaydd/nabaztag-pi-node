@@ -58,15 +58,15 @@ app.get('/', (req, res) => {
   res.render('home', data);
 });
 
-app.get('/nadb', (req, res) => {
+app.get('/nabd', (req, res) => {
   const data = {
-    name: "nadb",
+    name: "nabd",
     opCode: choreography.opCode,
   };
-  res.render('nadb', data);
+  res.render('nabd', data);
 });
 
-app.post('/nadb', (req, res) => {
+app.post('/nabd', (req, res) => {
   console.log(req);
   console.log(req.headers.referer);
   const form = req.body;

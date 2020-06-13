@@ -5,10 +5,12 @@
 </div>
 
 <h2>Mode</h2>
-<form method="post" action="/nadb" class="d-inline"><input name="data" value='{"type":"mode","mode":"interactive"}' hidden><button type="submit">interactive</button></form>
-<form method="post" action="/nadb" class="d-inline"><input name="data" value='{"type":"mode","mode":"idle"}' hidden><button type="submit">idle</button></form>
+<form method="post" action="/nabd" class="d-inline"><input name="data" value='{"type":"mode","mode":"interactive"}' hidden><button type="submit">interactive</button></form>
+<form method="post" action="/nabd" class="d-inline"><input name="data" value='{"type":"mode","mode":"idle"}' hidden><button type="submit">idle</button></form>
+<form method="post" action="/nabd" class="d-inline"><input name="data" value='{"type":"wakeup"}' hidden><button type="submit">wakeup</button></form>
+<form method="post" action="/nabd" class="d-inline"><input name="data" value='{"type":"sleep"}' hidden><button type="submit">sleep</button></form>
 
-<h2>nadb gestalt</h2>
+<h2>nabd gestalt</h2>
 
 <div id="ob">
   <div id="gestalt">
