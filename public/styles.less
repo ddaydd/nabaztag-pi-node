@@ -3,6 +3,7 @@
 @color-blue-light: #17b0c7;
 @color-red: #992613;
 @color-green: #439913;
+@color-green-dark: #2c660e;
 @color-green-light: #53bd19;
 @color-purple: #691399;
 html, body {
@@ -29,6 +30,9 @@ a {
   padding: 5px;
   margin: 1px;
   display: inline-block;
+  &:hover {
+    background-color: @color-blue-light;
+  }
 }
 
 header {
@@ -40,9 +44,6 @@ header {
   }
   a {
     padding: 10px;
-    &:hover {
-      background-color: @color-blue;
-    }
     &.active {
       background-color: @color-blue-light;
     }
@@ -112,16 +113,17 @@ form {
 }
 
 .ob {
-  background-color: @color-green-light;
+  background-color: @color-blue-light;
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 220px 1fr;
   div {
-    padding: 10px;
+    padding: 5px 10px;
     &:nth-child(odd) {
       text-align: right;
       text-transform: uppercase;
       font-weight: bold;
-      background-color: @color-green;
+      background-color: @color-blue-dark;
+      color: @color-blue-light;
     }
   }
 }
@@ -148,6 +150,14 @@ form {
 
 .d-inline {
   display: inline-block;
+}
+
+.color-blue {
+  color: @color-blue !important;
+}
+
+.color-blue-light {
+  color: @color-blue-light !important;
 }
 
 pre {
